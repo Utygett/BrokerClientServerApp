@@ -7,6 +7,7 @@
 
 #include <boost/asio.hpp>
 #include <QLabel>
+#include <QUuid>
 #include "../Common.hpp"
 #include "../json.hpp"
 #include "tcpclient.h"
@@ -26,13 +27,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void startInitUi();
-    void startLogic();
 private slots:
     void on_currencyComboBox_activated(const QString &arg1);
-
     void on_pbBuy_clicked();
-
     void on_pbSell_clicked();
+	void getCurrentCurrencyInfoSlot();
 
 private:
     Ui::MainWindow *ui;

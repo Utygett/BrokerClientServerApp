@@ -1,11 +1,14 @@
 #ifndef BID_H
 #define BID_H
-
+/*
+ *  Класс реализующий заявку на валюту.
+ */
 #include <string>
 #include <chrono>
 #include <iostream>
 #include "src/json.hpp"
 
+// TODO Поменять название с Bid на Order
 enum {PURCHASE, SELL};
 
 class Bid

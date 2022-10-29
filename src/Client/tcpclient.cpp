@@ -6,6 +6,8 @@ TCPClient::TCPClient()
     connect();
 }
 
+// TODO Разобраться как работает буст сокет и подключение.
+
 void TCPClient::connect()
 {
     if(s)
@@ -23,6 +25,8 @@ void TCPClient::connect()
     }
 }
 
+// TODO Разобраться в плюсах и минусах синглтона в статической и динамической памяти.
+
 TCPClient &TCPClient::getClient()
 {
     static TCPClient client;
@@ -34,6 +38,11 @@ TCPClient::~TCPClient()
     if(s)
         delete s;
 }
+
+// TODO Поменять тип команд со строки на число и переделать это все в enum.
+/*
+ * Метод для отправки запроса на сервер и получение ответа.
+ */
 
 std::string TCPClient::messageExchange(const std::string &aId, const std::string &aRequestType, const std::string &aMessage)
 {
@@ -51,6 +60,10 @@ std::string TCPClient::messageExchange(const std::string &aId, const std::string
     boost::asio::write(*s, boost::asio::buffer(request, request.size()));
     return readMessage();
 }
+
+/*
+ * Метод для чтения ответа от сервера, читаем пока не встретим конец строки.
+ */
 
 std::string TCPClient::readMessage()
 {

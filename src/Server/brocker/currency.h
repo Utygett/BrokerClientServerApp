@@ -1,6 +1,10 @@
 #ifndef CURRENCY_H
 #define CURRENCY_H
 
+/*
+ * Класс реализующий логику работы с валютой (покуку, продажу, хранение) и текущий курс.
+ * Хранит в себе заявки на покупку и продажу.
+ */
 
 #include <string>
 #include <set>
@@ -10,7 +14,6 @@
 
 class Currency
 {
-
     struct compare {
         bool operator()(std::shared_ptr<Bid> lhs, std::shared_ptr<Bid> rhs) const {
             if(lhs->getType() == SELL && (lhs->getPrice() < rhs->getPrice() ||
@@ -33,6 +36,8 @@ class Currency
     std::string checkActiveRequestForSell(std::shared_ptr<Bid> &newBid);
     std::string checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid);
 
+	Currency operator = (const Currency &);
+	Currency(const Currency &);
 public:
     explicit Currency(const std::string &currName, double exchangeRate);
     std::string addBid(std::string jSonBidInfo);

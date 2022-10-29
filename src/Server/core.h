@@ -1,6 +1,10 @@
 #ifndef CORE_H
 #define CORE_H
 
+/*
+ * Класс реализующий запросы логику ответов, на запросы клиентов.
+ */
+
 #include <cstdlib>
 #include <iostream>
 #include <memory>

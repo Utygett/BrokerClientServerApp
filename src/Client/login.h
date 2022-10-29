@@ -19,7 +19,7 @@ class Login : public QDialog
 public:
     explicit Login(QDialog *parent = nullptr);
     bool LoginUser();
-    size_t getUserId();
+    std::string getUserId();
 public slots:
     void onClickLogin();
     void onClickRegister();

@@ -43,9 +43,9 @@ bool Login::LoginUser()
     return this->exec();
 }
 
-size_t Login::getUserId()
+std::string Login::getUserId()
 {
-    return std::atoll(m_UserId.c_str());
+    return m_UserId;
 }
 
 void Login::onClickLogin()

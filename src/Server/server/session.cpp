@@ -10,6 +10,8 @@ tcp::socket &Session::socket()
     return m_Socket;
 }
 
+// TODO Узнать как это работает
+
 void Session::start()
 {
     m_Socket.async_read_some(boost::asio::buffer(m_DataBuffer, max_length),
@@ -17,6 +19,12 @@ void Session::start()
             boost::asio::placeholders::error,
                     boost::asio::placeholders::bytes_transferred));
 }
+
+// TODO Убрать лес ифелсов и сделать свитчкейз
+
+/*
+ * Получаем сообщение от клиента, парсим его и даем ответ.
+ */
 
 void Session::handle_read(const boost::system::error_code &error, size_t bytes_transferred)
 {
@@ -39,13 +47,13 @@ void Session::handle_read(const boost::system::error_code &error, size_t bytes_t
         {
             // Запрос на новую заявку.
             // Проверяем можем ли сразу ее исполнить, если нет то добавляем в стакан.
-            reply = "Hello, " +  Core::getCore().newBid(j["Message"]) + "!\n";
+            reply = Core::getCore().newBid(j["Message"]) + "!\n";
         }
         else if (reqType == Requests::Info)
         {
             // Запрос на информацию по заявкам.
             // Получаем информацию о активных заявках, а так же узнаем если наши заявки исполнены.
-            reply = "Hello, " +  Core::getCore().getInfo(j["UserId"]) + "!\n";
+            reply = Core::getCore().getInfo(j["UserId"]) + "!\n";
         }
         else if (reqType == Requests::Login)
         {
@@ -71,6 +79,12 @@ void Session::handle_read(const boost::system::error_code &error, size_t bytes_t
         delete this;
     }
 }
+
+/*
+ * Пишем ответ клиенту.
+ */
+
+// TODO понять как это работает.
 
 void Session::handle_write(const boost::system::error_code &error)
 {

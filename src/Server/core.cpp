@@ -1,12 +1,20 @@
 #include "core.h"
 
+/*
+ * Конструктор, добавляем валютные пары и их стартовые курсы обмена.
+ */
+
 Core::Core()
 {
     m_Forex["USD/RUB"] = std::make_shared<Currency>("USD/RUB", 60);
     m_Forex["USD/EUR"] = std::make_shared<Currency>("USD/EUR", 0.9);
     m_Forex["EUR/RUB"] = std::make_shared<Currency>("EUR/RUB", 70);
 }
-// "Регистрирует" нового пользователя и возвращает его ID.
+
+/*
+ * Регистрируем нового пользователя и возвращаем его ID.
+ */
+
 std::string Core::registerNewUser(const std::string& userInfo)
 {
     nlohmann::json jRegStatus;
@@ -33,6 +41,10 @@ std::string Core::registerNewUser(const std::string& userInfo)
     }
     return jRegStatus.dump();
 }
+
+/*
+ * Проверяем зарегистрирован ли пользователь.
+ */
 
 std::string Core::loginUser(const std::string &userInfo)
 {
@@ -65,18 +77,26 @@ std::string Core::loginUser(const std::string &userInfo)
     return jRegStatus.dump();
 }
 
+/*
+ * Добавляем заявку, проверяем можно ли ее исполнить,
+ * если заявка исполнена то добавляем в таблицу исполненых заявок.
+ */
+
 std::string Core::newBid(const std::string &bidInfo)
 {
-    try {
+	nlohmann::json jBidStatus;
+	try {
         nlohmann::json jBidInfo = nlohmann::json::parse(bidInfo);
         std::string currency = jBidInfo["currency"];
         if(m_Forex.find(currency) != m_Forex.end())
         {
             std::cout << "Find currency" << std::endl;
-             auto jOrderResult = nlohmann::json::parse(m_Forex[currency]->addBid(jBidInfo["bid"].dump()));// нужно возвращать одному пользователю а второго кидать исполненые заказы
-             std::cout << "END PARSE " << jOrderResult << std::endl;
-             nlohmann::json jDeals = jOrderResult["deals"];
-             std::cout << "SIZE IS " << jDeals.size() << "    " << jDeals.dump(4) << std::endl;
+			std::string addBidResult = m_Forex[currency]->addBid(jBidInfo["bid"].dump());
+			std::cout << "AddBidresult:" << addBidResult << std::endl;
+			auto jOrderResult = nlohmann::json::parse(addBidResult);// нужно возвращать одному пользователю а второго кидать исполненые заказы
+			std::cout << "END PARSE " << jOrderResult << std::endl;
+			nlohmann::json jDeals = jOrderResult["deals"];
+			std::cout << "SIZE IS " << jDeals.size() << "    " << jDeals.dump(4) << std::endl;
 //             if(jDeals.size() == 1)
 //             {
 //                 std::cout << "STEP 1" << std::endl;
@@ -109,17 +129,22 @@ std::string Core::newBid(const std::string &bidInfo)
              {
                  std::cout << "RECORDS IN STORE" << it.second.dump(4);
              }
+			jBidStatus["status"] = "true";
         }
         else
         {
-            std::cout << "Currency is " << jBidInfo["currency"] << " Not found" << std::endl;
+			jBidStatus["status"] = "false";
+            std::string msg =  "Currency is " + jBidInfo["currency"];
+			msg += " Not found";
+			jBidStatus["msg"] = msg;
             std::cerr << "Error! Unknown Currency" << std::endl;
         }
         } catch (std::exception &e) {
+			jBidStatus["status"] = "false";
+			jBidStatus["msg"] = e.what();
             std::cerr << e.what() << std::endl;
-            return e.what();
         }
-    return  "Error! Unknown Currency";
+    return  jBidStatus.dump();
 }
 
 std::string Core::getInfo(const std::string &UserId)

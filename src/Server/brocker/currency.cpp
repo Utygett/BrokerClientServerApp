@@ -7,29 +7,33 @@ Currency::Currency(const std::string &currName, double exchangeRate)
 
 }
 
+/*
+ *  Добавление новой заявки, и проверка можно ли ее сразу исполнить.
+ */
+
 std::string Currency::addBid(std::string jSonBidInfo)
 {
     std::string jsonBidResponse;
     try {
         auto jBid = nlohmann::json::parse(jSonBidInfo);
-        std::cout << jBid["id"] << std::endl;
         size_t UserId = jBid["id"].get<size_t>();
-        std::cout <<jBid["price"] << std::endl;
-        double price = jBid["price"].get<double>();
-        std::cout << jBid["amount"]<< std::endl;
+        double price = jBid["price"].get<double>();;
         int amount = jBid["amount"].get<int>();
-        std::cout <<jBid["type"] << std::endl;
         bool bidType = jBid["type"].get<int>();
-        std::cout << jBid["uuid"] << std::endl;
         std::string uuid = jBid["uuid"];
         std::shared_ptr<Bid> newBid = std::make_shared<Bid>(UserId, price, amount, bidType, uuid);
+		std::cout << "Success add bid" << std::endl;
         jsonBidResponse = checkBid(newBid);
     } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
-        jsonBidResponse = "error"; // поменять на джейсон статус ошибки
+        jsonBidResponse = "error"; // TODO поменять на джейсон статус ошибки
     }
     return jsonBidResponse;
 }
+
+/*
+ * Получаем информацию о текущих заявках по валюте.
+ */
 
 nlohmann::json Currency::getDepthOfMarket()
 {
@@ -65,6 +69,10 @@ double Currency::getExchangeRate()
     return m_ExchangeRate;
 }
 
+/*
+ * Проверяем тип заявки и проверяем можно ли ее реализовать.
+ */
+
 std::string Currency::checkBid(std::shared_ptr<Bid> &newBid)
 {
     std::string jsonBidResponse;
@@ -75,6 +83,11 @@ std::string Currency::checkBid(std::shared_ptr<Bid> &newBid)
         jsonBidResponse = checkActiveRequestForBuy(newBid);
     return jsonBidResponse;
 }
+
+/*
+ *  Смотрим активные заявки на продажу, если заявку можно исполнить совершаем сделку,
+ *  если нет то добавляем в хранилище.
+ */
 
 std::string Currency::checkActiveRequestForSell(std::shared_ptr<Bid> &newBid)
 {
@@ -90,15 +103,20 @@ std::string Currency::checkActiveRequestForSell(std::shared_ptr<Bid> &newBid)
         {
             m_SellRequests.erase(itBegin++);
         }
-        else
+        else // TODO проверить нужна ли вообще эта проверка, потому что если шет амоунт не равно 0 мы выходим из цикла
             ++itBegin;
     }
     if(newBid->getAmount() != 0)
     {
         m_PurchaseRequests.insert(newBid);
     }
-    return jsonBidResponse.dump().c_str();
+    return jsonBidResponse.dump();
 }
+
+/*
+ *  Смотрим активные заявки на продажу, если заявку можно исполнить совершаем сделку,
+ *  если нет то добавляем в хранилище.
+ */
 
 std::string Currency::checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid)
 {
@@ -119,5 +137,5 @@ std::string Currency::checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid)
     {
         m_SellRequests.insert(newBid);
     }
-    return jsonBidResponse.dump().c_str();
+    return jsonBidResponse.dump();
 }

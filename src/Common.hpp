@@ -12,6 +12,7 @@ namespace Requests
     static std::string Hello = "Hel";
     static std::string NewBid = "Bid";
     static std::string Info = "Inf";
+	static std::string CurrInfo = "CurrInf";
     static std::string Init = "Init";
     static std::string Vault = "Val";
 }

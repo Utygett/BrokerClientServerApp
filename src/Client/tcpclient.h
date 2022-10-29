@@ -1,6 +1,10 @@
 #ifndef TCPCLIENT_H
 #define TCPCLIENT_H
 
+/*
+ * Синглтон класс, клиент для подключения к серверу и обмена сообщениями.
+ */
+
 #include <iostream>
 #include <boost/asio.hpp>
 #include "../Common.hpp"

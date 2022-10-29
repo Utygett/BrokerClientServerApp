@@ -1,6 +1,10 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+/*
+ * Класс реализующий сервер.
+ */
+
 #include "src/Server/server/session.h"
 
 class Server

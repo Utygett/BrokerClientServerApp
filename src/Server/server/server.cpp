@@ -1,5 +1,7 @@
 #include "server.h"
 
+// TODO Разобраться как это все здесь работает
+
 Server::Server(boost::asio::io_service& io_service)
     : m_IOService(io_service)
     , m_Acceptor(io_service, tcp::endpoint(tcp::v4(), port))

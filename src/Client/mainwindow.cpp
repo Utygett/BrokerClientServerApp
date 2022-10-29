@@ -1,6 +1,10 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+/*
+ * Конструктор, запускаем окно (входа\регистрации) и инициализируем интерфейс.
+ */
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -25,8 +29,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/*
+ *  Инициализируем интерфейс, получаем данные о валютах и текущих заявках.
+ */
+
 void MainWindow::startInitUi()
 {
+	m_UserId = m_loginUser.getUserId();
     std::string currencyInfo = TCPClient::getClient().messageExchange(m_UserId, Requests::Init, "");
     std::cout << currencyInfo << std::endl;
     try {
@@ -40,9 +49,10 @@ void MainWindow::startInitUi()
         {
             nlohmann::json jRecord = jCurrency[i];
             QString currencyPair(jRecord["name"].dump().c_str());
-            currencyPair = currencyPair.remove('"');
-            std::cout << jRecord["name"].dump().c_str() << std::endl;
+			currencyPair = currencyPair.remove('"');
+			std::cout << jRecord["name"].dump().c_str() << std::endl;
             ui->currencyComboBox->addItem(currencyPair);
+			// TODO убрать отсюда инициализацию цены, в слот получения информации вызывать его в конце метода.
             if(i == 0)
             {
                 ui->lbCurrCourse->setText(jRecord["price"].dump().c_str());
@@ -56,15 +66,25 @@ void MainWindow::startInitUi()
     }
 }
 
-void MainWindow::startLogic()
+void MainWindow::getCurrentCurrencyInfoSlot()
 {
-    std::cout << "Response " << TCPClient::getClient().messageExchange("0", Requests::Registration, "Hellow") << std::endl;
+	std::string currentCurrency = ui->currencyComboBox->currentText().toStdString();
+
 }
+
+/*
+ * Выпадающий список валют, при переходе должен отправляться запрос к серверу что бы получить данные
+ * по валюте.
+ */
 
 void MainWindow::on_currencyComboBox_activated(const QString &arg1)
 {
     qDebug() << "Combo xob activated" << arg1;
 }
+
+/*
+ * Слот для кнопки Купить, отправляет на сервер заявку на покупку валюты.
+ */
 
 void MainWindow::on_pbBuy_clicked()
 {
@@ -74,17 +94,21 @@ void MainWindow::on_pbBuy_clicked()
         jBuyRequest["amount"] = ui->lineBuyAmount->text().toInt();
         jBuyRequest["id"] = std::atoi(m_UserId.c_str());
         jBuyRequest["type"] = PURCHASE;
-        jBuyRequest["uuid"] = "sdfj32hr97hgfkg";
+        jBuyRequest["uuid"] = QUuid::createUuid().toString().toStdString();
         nlohmann::json jRequest;
         jRequest["currency"] = ui->currencyComboBox->currentText().toStdString();
         jRequest["bid"] = jBuyRequest;
-        std::cout << TCPClient::getClient().messageExchange(m_UserId, Requests::NewBid, jRequest.dump()) << std::endl;
+        std::cout << "Answer: " <<TCPClient::getClient().messageExchange(m_UserId, Requests::NewBid, jRequest.dump()) << std::endl;
 
     } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        std::cout << "Error: " << e.what() << std::endl;
         //message box
     }
 }
+
+/*
+ * Слот для кнопки Продать, отправляет на сервер заявку на продажу валюты.
+ */
 
 void MainWindow::on_pbSell_clicked()
 {
@@ -94,14 +118,14 @@ void MainWindow::on_pbSell_clicked()
         jSellRequest["amount"] = ui->lineSellAmount->text().toInt();
         jSellRequest["id"] = std::atoi(m_UserId.c_str());
         jSellRequest["type"] = SELL;
-        jSellRequest["uuid"] = "sdfj32hdhfhg";
+        jSellRequest["uuid"] = QUuid::createUuid().toString().toStdString();
         nlohmann::json jRequest;
         jRequest["currency"] = ui->currencyComboBox->currentText().toStdString();
         jRequest["bid"] = jSellRequest;
-        std::cout << TCPClient::getClient().messageExchange(m_UserId, Requests::NewBid, jRequest.dump()) << std::endl;
+        std::cout << "Answer: " <<TCPClient::getClient().messageExchange(m_UserId, Requests::NewBid, jRequest.dump()) << std::endl;
 
     } catch (std::exception &e) {
-        std::cout << e.what() << std::endl;
+        std::cout << "Error: " << e.what() << std::endl;
         //message box
     }
 }
