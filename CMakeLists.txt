@@ -14,7 +14,6 @@ set(CMAKE_AUTOUIC ON)
 
 set(CLIENT_SRC
         src/Client/Client.cpp
-        src/Client/currencyvault.cpp
         src/Client/login.cpp
         src/Client/mainwindow.cpp
         src/Client/tcpclient.cpp
