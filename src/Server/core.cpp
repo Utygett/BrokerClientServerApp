@@ -90,41 +90,20 @@ std::string Core::newBid(const std::string &bidInfo)
         std::string currency = jBidInfo["currency"];
         if(m_Forex.find(currency) != m_Forex.end())
         {
-            std::cout << "Find currency" << std::endl;
-			std::string addBidResult = m_Forex[currency]->addBid(jBidInfo["bid"].dump());
-			std::cout << "AddBidresult:" << addBidResult << std::endl;
-			auto jOrderResult = nlohmann::json::parse(addBidResult);// нужно возвращать одному пользователю а второго кидать исполненые заказы
-			std::cout << "END PARSE " << jOrderResult << std::endl;
-			nlohmann::json jDeals = jOrderResult["deals"];
-			std::cout << "SIZE IS " << jDeals.size() << "    " << jDeals.dump(4) << std::endl;
-//             if(jDeals.size() == 1)
-//             {
-//                 std::cout << "STEP 1" << std::endl;
-////                 std::cout << jDeals["left"] << std::endl;
-//                 std::cout << "STEP 1.1" << std::endl;
-//                 auto jLeftSideDeal = jDeals[0];
-//                 std::cout << "STEP 1.2 " << jLeftSideDeal << std::endl;
-////                 auto jRightSideDeal = jDeals["right"];
-////                 m_CopletedOrders[jLeftSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
-////                 m_CopletedOrders[jRightSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
-//             }
-//             else
-//             {
-                 for(size_t i = 0; i < jDeals.size(); ++i)
+			auto jOrderResult = m_Forex[currency]->addBid(jBidInfo["bid"].dump());
+			std::cout << "END PARSE " << jOrderResult.dump(3) << std::endl;
+			std::cout << "SIZE IS " << jOrderResult.size() << std::endl;
+                 for(size_t i = 0; i < jOrderResult.size(); ++i)
                  {
-                     auto jRecord = jDeals[i];
+                     auto jRecord = nlohmann::json::parse(jOrderResult[i].dump());
                      std::cout << "STEP 2 " << jRecord.dump(4) << std::endl;
-                     auto jLeftSideDeal1 = jRecord;
-                     std::cout << "STEP 2.1" << jLeftSideDeal1 << std::endl;
-                     std::cout << "STEP 2.1" << jLeftSideDeal1["left"] << std::endl;
-                     std::cout << "STEP 2.1" << jLeftSideDeal1["right"] << std::endl;
                      auto jLeftSideDeal = jRecord["left"];
-                     std::cout << "STEP 2.2" << std::endl;
+                     std::cout << "STEP 2.1" << jLeftSideDeal << std::endl;
                      m_CopletedOrders[jLeftSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
-                     auto jRightSideDeal = jRecord["right"];
-                     m_CopletedOrders[jRightSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
+					 auto jRightSideDeal = jRecord["right"];
+					 std::cout << "STEP 2.2" << jRightSideDeal << std::endl;
+					 m_CopletedOrders[jRightSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
                  }
-//             }
              for(const auto &it : m_CopletedOrders)
              {
                  std::cout << "RECORDS IN STORE" << it.second.dump(4);

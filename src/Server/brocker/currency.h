@@ -32,15 +32,15 @@ class Currency
     std::multiset<std::shared_ptr<Bid>, compare> m_PurchaseRequests;
     std::multiset<std::shared_ptr<Bid>, compare> m_SellRequests;
 
-    std::string checkBid(std::shared_ptr<Bid> &newBid);
-    std::string checkActiveRequestForSell(std::shared_ptr<Bid> &newBid);
-    std::string checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid);
+	nlohmann::json checkBid(std::shared_ptr<Bid> &newBid);
+	nlohmann::json checkActiveRequestForSell(std::shared_ptr<Bid> &newBid);
+	nlohmann::json checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid);
 
 	Currency operator = (const Currency &);
 	Currency(const Currency &);
 public:
     explicit Currency(const std::string &currName, double exchangeRate);
-    std::string addBid(std::string jSonBidInfo);
+	nlohmann::json addBid(std::string jSonBidInfo);
     nlohmann::json getDepthOfMarket();
     std::string getName();
     double getExchangeRate();

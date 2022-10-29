@@ -11,9 +11,9 @@ Currency::Currency(const std::string &currName, double exchangeRate)
  *  Добавление новой заявки, и проверка можно ли ее сразу исполнить.
  */
 
-std::string Currency::addBid(std::string jSonBidInfo)
+nlohmann::json Currency::addBid(std::string jSonBidInfo)
 {
-    std::string jsonBidResponse;
+	nlohmann::json jsonBidResponse;
     try {
         auto jBid = nlohmann::json::parse(jSonBidInfo);
         size_t UserId = jBid["id"].get<size_t>();
@@ -25,7 +25,7 @@ std::string Currency::addBid(std::string jSonBidInfo)
 		std::cout << "Success add bid" << std::endl;
         jsonBidResponse = checkBid(newBid);
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << e.what() << __func__ << std::endl;
         jsonBidResponse = "error"; // TODO поменять на джейсон статус ошибки
     }
     return jsonBidResponse;
@@ -73,10 +73,9 @@ double Currency::getExchangeRate()
  * Проверяем тип заявки и проверяем можно ли ее реализовать.
  */
 
-std::string Currency::checkBid(std::shared_ptr<Bid> &newBid)
+nlohmann::json Currency::checkBid(std::shared_ptr<Bid> &newBid)
 {
-    std::string jsonBidResponse;
-    std::string result;
+	nlohmann::json jsonBidResponse;
     if(newBid->getType() == PURCHASE)
         jsonBidResponse = checkActiveRequestForSell(newBid);
     else if(newBid->getType() == SELL)
@@ -89,7 +88,7 @@ std::string Currency::checkBid(std::shared_ptr<Bid> &newBid)
  *  если нет то добавляем в хранилище.
  */
 
-std::string Currency::checkActiveRequestForSell(std::shared_ptr<Bid> &newBid)
+nlohmann::json Currency::checkActiveRequestForSell(std::shared_ptr<Bid> &newBid)
 {
     nlohmann::json jsonBidResponse;
     auto itBegin = m_SellRequests.begin();
@@ -103,14 +102,14 @@ std::string Currency::checkActiveRequestForSell(std::shared_ptr<Bid> &newBid)
         {
             m_SellRequests.erase(itBegin++);
         }
-        else // TODO проверить нужна ли вообще эта проверка, потому что если шет амоунт не равно 0 мы выходим из цикла
+        else // TODO проверить нужна ли вообще эта проверка, потому что если гет амоунт не равно 0 мы выходим из цикла
             ++itBegin;
     }
     if(newBid->getAmount() != 0)
     {
         m_PurchaseRequests.insert(newBid);
     }
-    return jsonBidResponse.dump();
+    return jsonBidResponse;
 }
 
 /*
@@ -118,7 +117,7 @@ std::string Currency::checkActiveRequestForSell(std::shared_ptr<Bid> &newBid)
  *  если нет то добавляем в хранилище.
  */
 
-std::string Currency::checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid)
+nlohmann::json Currency::checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid)
 {
     nlohmann::json jsonBidResponse;
     auto itBegin = m_PurchaseRequests.begin();
@@ -137,5 +136,5 @@ std::string Currency::checkActiveRequestForBuy(std::shared_ptr<Bid> &newBid)
     {
         m_SellRequests.insert(newBid);
     }
-    return jsonBidResponse.dump();
+    return jsonBidResponse;
 }

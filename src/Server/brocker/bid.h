@@ -29,8 +29,8 @@ public:
     bool getType();
     int getAmount();
     double getDealPrice();
-    std::string informClientsTransaction(std::shared_ptr<Bid> &newBid, int dealAmount, double price);
-    std::string makeDeal(std::shared_ptr<Bid> &newBid);
+	nlohmann::json informClientsTransaction(std::shared_ptr<Bid> &newBid, int dealAmount, double price);
+	nlohmann::json makeDeal(std::shared_ptr<Bid> &newBid);
     explicit Bid(size_t UserId, double Price, int Amount, bool BidType, std::string &uuid);
     ~Bid();
 private:

@@ -45,7 +45,7 @@ double Bid::getDealPrice()
  * Основной метод, который проводит сделку между двумя заявками.
  */
 
-std::string Bid::makeDeal(std::shared_ptr<Bid> &newBid)
+nlohmann::json Bid::makeDeal(std::shared_ptr<Bid> &newBid)
 {
 	double coast;
 	double price;
@@ -77,19 +77,21 @@ std::string Bid::makeDeal(std::shared_ptr<Bid> &newBid)
  * Получение информации о прошедшей сделки.
  */
 
-std::string Bid::informClientsTransaction(std::shared_ptr<Bid> &newBid, int dealAmount, double price)
+nlohmann::json Bid::informClientsTransaction(std::shared_ptr<Bid> &newBid, int dealAmount, double price)
 {
     nlohmann::json jsonDealInfo;
     nlohmann::json jInformLeftClient;
     jInformLeftClient["id"] = newBid->m_UserId;
     jInformLeftClient["amount"] = dealAmount;
+	jInformLeftClient["type"] = newBid->getType();
     jInformLeftClient["price"] = price;
     jInformLeftClient["uuid"] = newBid->m_Uuid;
     jsonDealInfo["left"] = jInformLeftClient;
     nlohmann::json jInformRightClient;
     jInformRightClient["id"] = this->m_UserId;
     jInformRightClient["amount"] = dealAmount;
-    jInformRightClient["price"] = price;
+	jInformLeftClient["type"] = this->getType();
+	jInformRightClient["price"] = price;
     jInformRightClient["uuid"] = this->m_Uuid;
     jsonDealInfo["right"] = jInformRightClient;
     return jsonDealInfo;
