@@ -69,8 +69,9 @@ void Session::handle_read(const boost::system::error_code &error, size_t bytes_t
             reply = Core::getCore().getCurrencyList(j["UserId"]);
         }
         std::cout << "Reply is:" << reply << std::endl;
+		std::cout << "Reply size is: " << reply.size() << std::endl;
         boost::asio::async_write(m_Socket,
-            boost::asio::buffer(reply, reply.size()),
+            boost::asio::buffer(reply.c_str(), reply.size()),
             boost::bind(&Session::handle_write, this,
                 boost::asio::placeholders::error));
     }
@@ -90,6 +91,7 @@ void Session::handle_write(const boost::system::error_code &error)
 {
     if (!error)
     {
+		std::cout  << "Data bufer" << m_DataBuffer << std::endl;
         m_Socket.async_read_some(boost::asio::buffer(m_DataBuffer, max_length),
             boost::bind(&Session::handle_read, this,
                 boost::asio::placeholders::error,

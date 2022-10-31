@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Wont to quit";
         exit(0);
     }
+	m_interfaceInitTimer =  new QTimer(this);
+	connect(m_interfaceInitTimer, SIGNAL(timeout()), this, SLOT(getCurrentCurrencyInfoSlot()));
+	m_interfaceInitTimer->start(5000);
 }
 
 MainWindow::~MainWindow()
@@ -89,7 +92,7 @@ void MainWindow::initDOM(nlohmann::json jDOM)
 
 void MainWindow::getCurrentCurrencyInfoSlot()
 {
-
+	initUi();
 }
 
 /*

@@ -17,7 +17,7 @@ class Session
 {
 private:
     tcp::socket m_Socket;
-    enum { max_length = 1024 };
+    enum { max_length = 2048 };
     char m_DataBuffer[max_length];
 public:
     Session(boost::asio::io_service& io_service);

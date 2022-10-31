@@ -55,9 +55,9 @@ std::string Core::loginUser(const std::string &userInfo)
         {
             if(m_Users[jUserInfo["username"]].password == jUserInfo["password"])
             {
-                jRegStatus["status"] = "true";
                 jRegStatus["userId"] = m_Users[jUserInfo["username"]].id;
-            }
+				jRegStatus["status"] = "true";
+			}
             else
             {
                 jRegStatus["status"] = "false";

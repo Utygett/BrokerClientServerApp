@@ -8,6 +8,7 @@
 #include <boost/asio.hpp>
 #include <QLabel>
 #include <QUuid>
+#include <QTimer>
 #include "../Common.hpp"
 #include "../json.hpp"
 #include "tcpclient.h"
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     Login m_loginUser;
     std::string m_UserId;
+	QTimer *m_interfaceInitTimer;
 	void initDOM(nlohmann::json jDOM);
 	void initUi();
 public:

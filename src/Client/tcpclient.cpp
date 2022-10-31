@@ -68,9 +68,12 @@ std::string TCPClient::messageExchange(const std::string &aId, const std::string
 std::string TCPClient::readMessage()
 {
     boost::asio::streambuf b;
-    boost::asio::read_until(*s, b, "\0");
+	const std::string delim = "status";
+//    boost::asio::read_until(*s, b, "\0");
+    boost::asio::read_until(*s, b, delim); // TODO придумать протокол передачи сообщений и ждать завершающего символа.
     std::istream is(&b);
     std::string line(std::istreambuf_iterator<char>(is), {});
+	std::cout << "Message size is: " << line.size() << std::endl;
     return line;
 }
 
