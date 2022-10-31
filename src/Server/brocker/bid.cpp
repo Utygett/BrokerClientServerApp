@@ -90,7 +90,7 @@ nlohmann::json Bid::informClientsTransaction(std::shared_ptr<Bid> &newBid, int d
     nlohmann::json jInformRightClient;
     jInformRightClient["id"] = this->m_UserId;
     jInformRightClient["amount"] = dealAmount;
-	jInformLeftClient["type"] = this->getType();
+	jInformRightClient["type"] = this->getType();
 	jInformRightClient["price"] = price;
     jInformRightClient["uuid"] = this->m_Uuid;
     jsonDealInfo["right"] = jInformRightClient;

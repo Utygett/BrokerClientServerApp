@@ -23,10 +23,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     Login m_loginUser;
     std::string m_UserId;
+	void initDOM(nlohmann::json jDOM);
+	void initUi();
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-    void startInitUi();
+	MainWindow(QWidget *parent = nullptr);
+	~MainWindow();
 private slots:
     void on_currencyComboBox_activated(const QString &arg1);
     void on_pbBuy_clicked();

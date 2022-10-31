@@ -47,13 +47,13 @@ void Session::handle_read(const boost::system::error_code &error, size_t bytes_t
         {
             // Запрос на новую заявку.
             // Проверяем можем ли сразу ее исполнить, если нет то добавляем в стакан.
-            reply = Core::getCore().newBid(j["Message"]) + "!\n";
+            reply = Core::getCore().newBid(j["Message"]);
         }
         else if (reqType == Requests::Info)
         {
             // Запрос на информацию по заявкам.
             // Получаем информацию о активных заявках, а так же узнаем если наши заявки исполнены.
-            reply = Core::getCore().getInfo(j["UserId"]) + "!\n";
+            reply = Core::getCore().getInfo(j["UserId"]);
         }
         else if (reqType == Requests::Login)
         {
@@ -66,7 +66,7 @@ void Session::handle_read(const boost::system::error_code &error, size_t bytes_t
             std::cout << "Init querry request" << std::endl;
             // Запрос на информацию по заявкам.
             // Получаем информацию о активных заявках, а так же узнаем если наши заявки исполнены.
-            reply = Core::getCore().getCurrencyList();
+            reply = Core::getCore().getCurrencyList(j["UserId"]);
         }
         std::cout << "Reply is:" << reply << std::endl;
         boost::asio::async_write(m_Socket,

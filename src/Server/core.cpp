@@ -99,12 +99,12 @@ std::string Core::newBid(const std::string &bidInfo)
                      std::cout << "STEP 2 " << jRecord.dump(4) << std::endl;
                      auto jLeftSideDeal = jRecord["left"];
                      std::cout << "STEP 2.1" << jLeftSideDeal << std::endl;
-                     m_CopletedOrders[jLeftSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
+                     m_CompletedOrders[jLeftSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
 					 auto jRightSideDeal = jRecord["right"];
 					 std::cout << "STEP 2.2" << jRightSideDeal << std::endl;
-					 m_CopletedOrders[jRightSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
+					 m_CompletedOrders[jRightSideDeal["id"].get<size_t>()].push_back(jLeftSideDeal);
                  }
-             for(const auto &it : m_CopletedOrders)
+             for(const auto &it : m_CompletedOrders)
              {
                  std::cout << "RECORDS IN STORE" << it.second.dump(4);
              }
@@ -136,7 +136,7 @@ std::string Core::getInfo(const std::string &UserId)
     return "Error! Unknown User";
 }
 
-std::string Core::getCurrencyList()
+std::string Core::getCurrencyList(const std::string& UserId)
 {
     nlohmann::json jCurrList;
     try {
@@ -154,7 +154,34 @@ std::string Core::getCurrencyList()
         jCurrList["msg"] = e.what();
         //error log append
     }
-    return  jCurrList.dump();
+	jCurrList["orders"] = getCompleteOrders(std::stoi(UserId));
+	jCurrList["DOM"] = getDepthOfMarket();
+	return  jCurrList.dump();
+}
+
+/*
+ * Проверяем есть ли у пользователя совершенные сделки.
+ */
+
+nlohmann::json Core::getCompleteOrders(size_t userId)
+{
+	nlohmann::json jCompletedUserOrders;
+	const auto userIt = m_UsersId.find(userId);
+	if(userIt == m_UsersId.end())
+		return jCompletedUserOrders;
+	jCompletedUserOrders = m_CompletedOrders[userId];
+	m_UsersId[userId].clear();
+	return jCompletedUserOrders;
+}
+
+nlohmann::json Core::getDepthOfMarket()
+{
+	nlohmann::json jDOM;
+	for(auto itBegin = m_Forex.begin(); itBegin != m_Forex.end(); ++itBegin)
+	{
+		jDOM[itBegin->first] = itBegin->second->getDepthOfMarket();
+	}
+	return jDOM;
 }
 
 Core &Core::getCore()

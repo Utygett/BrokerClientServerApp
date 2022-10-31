@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
         this->show();
         ui->setupUi(this);
         qDebug() << "Ready to work";
-        startInitUi();
+        initUi();
     }
     else
     {
@@ -33,7 +33,7 @@ MainWindow::~MainWindow()
  *  Инициализируем интерфейс, получаем данные о валютах и текущих заявках.
  */
 
-void MainWindow::startInitUi()
+void MainWindow::initUi()
 {
 	m_UserId = m_loginUser.getUserId();
     std::string currencyInfo = TCPClient::getClient().messageExchange(m_UserId, Requests::Init, "");
@@ -51,10 +51,14 @@ void MainWindow::startInitUi()
             QString currencyPair(jRecord["name"].dump().c_str());
 			currencyPair = currencyPair.remove('"');
 			std::cout << jRecord["name"].dump().c_str() << std::endl;
-            ui->currencyComboBox->addItem(currencyPair);
+			if(ui->currencyComboBox->count() < jCurrency.size())
+            	ui->currencyComboBox->addItem(currencyPair);
 			// TODO убрать отсюда инициализацию цены, в слот получения информации вызывать его в конце метода.
-            if(i == 0)
+			std::string currentCurrency = ui->currencyComboBox->currentText().toStdString();
+            if(currentCurrency == currencyPair.toStdString())
             {
+				nlohmann::json jDOM = jInitInfo["DOM"];
+				initDOM(jDOM[currentCurrency]);
                 ui->lbCurrCourse->setText(jRecord["price"].dump().c_str());
                 ui->lbFirstCurrName->setText(currencyPair.split('/').first());
                 ui->lbSecondCurrencyName->setText(currencyPair.split('/').last());
@@ -66,9 +70,25 @@ void MainWindow::startInitUi()
     }
 }
 
+void MainWindow::initDOM(nlohmann::json jDOM)
+{
+	std::cout << "DOM INIT " << jDOM.dump(3) << std::endl;
+	ui->tbBuyOrders->clear();
+	for(int i = 0; i < jDOM["buy"].size(); ++i)
+	{
+		QString order = jDOM["buy"][i].dump().c_str();
+		ui->tbBuyOrders->append(order);
+	}
+	ui->tbSellOrders->clear();
+	for(int i = 0; i < jDOM["sell"].size(); ++i)
+	{
+		QString order = jDOM["sell"][i].dump().c_str();
+		ui->tbSellOrders->append(order);
+	}
+}
+
 void MainWindow::getCurrentCurrencyInfoSlot()
 {
-	std::string currentCurrency = ui->currencyComboBox->currentText().toStdString();
 
 }
 
@@ -80,6 +100,7 @@ void MainWindow::getCurrentCurrencyInfoSlot()
 void MainWindow::on_currencyComboBox_activated(const QString &arg1)
 {
     qDebug() << "Combo xob activated" << arg1;
+	initUi();
 }
 
 /*
