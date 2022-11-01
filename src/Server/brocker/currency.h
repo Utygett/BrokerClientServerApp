@@ -12,6 +12,8 @@
 #include <src/Server/brocker/bid.h>
 #include <memory>
 
+// TODO добавить метод удаления заявки по uuid.
+
 class Currency
 {
     struct compare {

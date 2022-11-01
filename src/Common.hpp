@@ -15,6 +15,7 @@ namespace Requests
 	static std::string CurrInfo = "CurrInf";
     static std::string Init = "Init";
     static std::string Vault = "Val";
+	static std::string EndRequest = "@#sq#!$%";
 }
 
 #endif //CLIENSERVERECN_COMMON_HPP

@@ -68,6 +68,7 @@ void Session::handle_read(const boost::system::error_code &error, size_t bytes_t
             // Получаем информацию о активных заявках, а так же узнаем если наши заявки исполнены.
             reply = Core::getCore().getCurrencyList(j["UserId"]);
         }
+		reply += Requests::EndRequest;
         std::cout << "Reply is:" << reply << std::endl;
 		std::cout << "Reply size is: " << reply.size() << std::endl;
         boost::asio::async_write(m_Socket,
