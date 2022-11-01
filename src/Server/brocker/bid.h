@@ -6,7 +6,7 @@
 #include <string>
 #include <chrono>
 #include <iostream>
-#include "src/json.hpp"
+#include "json.hpp"
 
 // TODO Поменять название с Bid на Order
 enum {PURCHASE, SELL};

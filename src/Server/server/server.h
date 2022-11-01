@@ -4,8 +4,7 @@
 /*
  * Класс реализующий сервер.
  */
-
-#include "src/Server/server/session.h"
+#include "session.h"
 
 class Server
 {

@@ -8,8 +8,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <memory>
-#include "src/json.hpp"
-#include "src/Common.hpp"
+#include "json.hpp"
+#include "Common.hpp"
 #include "brocker/currency.h"
 #include "unordered_map"
 

@@ -7,9 +7,9 @@
 #include <iostream>
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
-#include "src/json.hpp"
-#include "src/Common.hpp"
-#include "src/Server/core.h"
+#include "json.hpp"
+#include "Common.hpp"
+#include "core.h"
 
 using boost::asio::ip::tcp;
 

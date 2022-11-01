@@ -9,8 +9,8 @@
 #include <QLabel>
 #include <QUuid>
 #include <QTimer>
-#include "../Common.hpp"
-#include "../json.hpp"
+#include "Common.hpp"
+#include "json.hpp"
 #include "tcpclient.h"
 using boost::asio::ip::tcp;
 

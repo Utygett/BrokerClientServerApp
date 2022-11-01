@@ -9,7 +9,7 @@
 #include <string>
 #include <set>
 #include <iostream>
-#include <src/Server/brocker/bid.h>
+#include "bid.h"
 #include <memory>
 
 // TODO добавить метод удаления заявки по uuid.

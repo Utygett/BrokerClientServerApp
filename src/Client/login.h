@@ -8,8 +8,8 @@
 #include <QPushButton>
 #include <QDebug>
 #include "tcpclient.h"
-#include "../Common.hpp"
-#include "../json.hpp"
+#include "Common.hpp"
+#include "json.hpp"
 
 class Login : public QDialog
 {

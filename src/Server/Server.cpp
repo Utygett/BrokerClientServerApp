@@ -2,8 +2,8 @@
 #include <iostream>
 #include <boost/bind/bind.hpp>
 #include <boost/asio.hpp>
-#include "src/json.hpp"
-#include "src/Common.hpp"
+#include "json.hpp"
+#include "Common.hpp"
 #include "server/server.h"
 
 int main()
