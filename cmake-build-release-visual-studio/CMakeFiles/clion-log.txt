@@ -1,0 +1,6 @@
+"C:\Program Files\JetBrains\CLion 2022.2.1\bin\cmake\win\bin\cmake.exe" -G "Visual Studio 15 2017" -DBOOST_ROOT=C:\local\boost_1_80_0 -DCMAKE_PREFIX_PATH=C:\Qt\Qt5.12.2\5.12.2\msvc2017\lib\cmake -S C:\Users\Admin\CLionProjects\BrokerClientServer -B C:\Users\Admin\CLionProjects\BrokerClientServer\cmake-build-release-visual-studio
+-- Selecting Windows SDK version 10.0.17763.0 to target Windows 10.0.19044.
+-- Could NOT find Python (missing: Python_EXECUTABLE Interpreter) 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-release-visual-studio

@@ -1,0 +1,6 @@
+C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug-mingw/CMakeFiles/Client.dir
+C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug-mingw/CMakeFiles/Server.dir
+C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug-mingw/CMakeFiles/edit_cache.dir
+C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug-mingw/CMakeFiles/rebuild_cache.dir
+C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug-mingw/CMakeFiles/Client_autogen.dir
+C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug-mingw/CMakeFiles/Server_autogen.dir

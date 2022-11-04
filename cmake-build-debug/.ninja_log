@@ -1,0 +1,21 @@
+# ninja log v5
+1	596	6885747673472897	build.ninja	ab675f3a34e9c084
+16	165	0	Client_autogen/mocs_compilation.cpp	f99bc16bdf3cbf03
+0	268	6885102640237575	CMakeFiles/Server.dir/Server.cpp.obj	9915a988ca72225b
+270	410	6885102641619343	Server.exe	8dd1b4fae319daf7
+166	7267	6885746743900843	CMakeFiles/Client.dir/Client.cpp.obj	a2ce1a66300169b5
+2292	2470	6885121119849430	Client.exe	6c3719afa46e4e7a
+16	165	0	CMakeFiles/Client_autogen	f99bc16bdf3cbf03
+16	165	0	C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug/CMakeFiles/Client_autogen	f99bc16bdf3cbf03
+16	165	0	C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug/Client_autogen/mocs_compilation.cpp	f99bc16bdf3cbf03
+170	303	6885746674250783	CMakeFiles/Client.dir/Client_autogen/mocs_compilation.cpp.obj	ddc8ebe5693c2220
+26	151	0	CMakeFiles/Client_autogen	f99bc16bdf3cbf03
+26	151	0	Client_autogen/mocs_compilation.cpp	f99bc16bdf3cbf03
+26	151	0	C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug/CMakeFiles/Client_autogen	f99bc16bdf3cbf03
+26	151	0	C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug/Client_autogen/mocs_compilation.cpp	f99bc16bdf3cbf03
+151	205	6885747678707795	CMakeFiles/Client.dir/Client_autogen/mocs_compilation.cpp.obj	ddc8ebe5693c2220
+154	2992	6885747706561351	CMakeFiles/Client.dir/Client.cpp.obj	a2ce1a66300169b5
+17	83	0	CMakeFiles/Client_autogen	f99bc16bdf3cbf03
+17	83	0	Client_autogen/mocs_compilation.cpp	f99bc16bdf3cbf03
+17	83	0	C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug/CMakeFiles/Client_autogen	f99bc16bdf3cbf03
+17	83	0	C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug/Client_autogen/mocs_compilation.cpp	f99bc16bdf3cbf03

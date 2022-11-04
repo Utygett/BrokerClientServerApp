@@ -1,0 +1,4 @@
+"C:\Program Files\JetBrains\CLion 2022.2.1\bin\cmake\win\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2022.2.1/bin/ninja/win/ninja.exe" -G Ninja -DBOOST_ROOT=C:\local\boost_1_80_0 -S C:\Users\Admin\CLionProjects\BrokerClientServer -B C:\Users\Admin\CLionProjects\BrokerClientServer\cmake-build-debug-mingw
+-- Configuring done
+-- Generating done
+-- Build files have been written to: C:/Users/Admin/CLionProjects/BrokerClientServer/cmake-build-debug-mingw
